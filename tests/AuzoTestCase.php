@@ -1,6 +1,6 @@
 <?php
 
-namespace Kordy\Auzo\Test;
+use Illuminate\Database\Schema\Blueprint;
 
 class AuzoTestCase extends \Orchestra\Testbench\TestCase
 {
@@ -11,13 +11,13 @@ class AuzoTestCase extends \Orchestra\Testbench\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
-    protected $user_model;
+    protected $userClass;
 
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
+     * @param  \Illuminate\Foundation\Application $app
+     * @throws Exception
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -34,21 +34,25 @@ class AuzoTestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
-        $this->artisan('migrate', [
-            '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../../../../database/migrations'),
-        ]);
+        // Create users table
+        Illuminate\Support\Facades\Schema::create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password', 60);
+            $table->rememberToken();
+            $table->timestamps();
+        });
 
         $this->artisan('migrate', [
             '--database' => 'testbench',
             '--realpath' => realpath(__DIR__.'/../src/Migrations'),
         ]);
 
-        // Set the baseUrl to the APP_URL configured in .env
-        $this->baseUrl = config('app.url');
+        // Get the user model from the Config/auzo.php file
+        $this->userClass = config('auzo.models.user');
 
-        // Get the user model from the Config/auth.php file
-        $this->user_model = config('auth.model') ?: config('auth.providers.users.model');
+        $this->withFactories(__DIR__.'/factories');
     }
 
     protected function getPackageProviders($app)
@@ -56,3 +60,66 @@ class AuzoTestCase extends \Orchestra\Testbench\TestCase
         return ['Kordy\Auzo\AuzoServiceProvider'];
     }
 }
+
+$laravel_version = substr(Illuminate\Foundation\Application::VERSION, 0, 3);
+/*
+ * Copy of Laravel 5.2's default App\User
+ */
+if ($laravel_version == '5.2') {
+    class TestUser extends \Illuminate\Foundation\Auth\User
+    {
+        use \Kordy\Auzo\Traits\HasRoleTrait;
+
+        protected $table = 'users';
+        /**
+         * The attributes that are mass assignable.
+         *
+         * @var array
+         */
+        protected $fillable = [
+            'name',
+            'email',
+            'password',
+        ];
+        /**
+         * The attributes that should be hidden for arrays.
+         *
+         * @var array
+         */
+        protected $hidden = [
+            'password',
+            'remember_token',
+        ];
+    }
+}
+/*
+ * Copy of Laravel 5.1's default App\User
+ * without CanResetPassword trait
+ */
+if ($laravel_version == '5.1') {
+    class TestUser extends Illuminate\Database\Eloquent\Model implements Illuminate\Contracts\Auth\Authenticatable, Illuminate\Contracts\Auth\Access\Authorizable
+    {
+        use Illuminate\Auth\Authenticatable, Illuminate\Foundation\Auth\Access\Authorizable;
+        use \Kordy\Auzo\Traits\HasRoleTrait;
+        /**
+         * The database table used by the model.
+         *
+         * @var string
+         */
+        protected $table = 'users';
+        /**
+         * The attributes that are mass assignable.
+         *
+         * @var array
+         */
+        protected $fillable = ['name', 'email', 'password'];
+        /**
+         * The attributes excluded from the model's JSON form.
+         *
+         * @var array
+         */
+        protected $hidden = ['password', 'remember_token'];
+    }
+}
+
+class_alias('TestUser', 'App\User');

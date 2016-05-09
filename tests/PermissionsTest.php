@@ -1,17 +1,9 @@
 <?php
 
-namespace Kordy\Auzo\Test;
-
-use Illuminate\Routing\Router;
-use AuzoRole;
-use AuzoAbility;
-use AuzoPolicy;
-use AuzoPermissionRegistrar;
-
 class PermissionsTest extends AuzoTestCase
 {
 
-    
+
     public function test_create_new_ability()
     {
         $ability = $this->createTestAbility();
@@ -32,7 +24,7 @@ class PermissionsTest extends AuzoTestCase
             ['name' => 'Test Policy', 'method' => 'Class@method']
         );
     }
-    
+
     public function test_can_create_new_role()
     {
         $role = AuzoRole::create(['name' => 'testRole', 'description' => 'test role description']);
@@ -57,9 +49,9 @@ class PermissionsTest extends AuzoTestCase
         $user = $this->createUser();
         $role = AuzoRole::create(['name' => 'testRole']);
         $user->assignRole($role);
-        
+
         $this->assertTrue($user->hasRole($role));
-        $this->assertEquals($role->name,$user->role->name);
+        $this->assertEquals($role->name, $user->role->name);
     }
 
     public function test_can_user_inherit_role_permission_to_ability()
@@ -85,11 +77,11 @@ class PermissionsTest extends AuzoTestCase
         $user2 = $this->createUser();
         $policy1 = AuzoPolicy::create([
             'name' => 'Profile Owner',
-            'method' => $this->user_model.'@profileOwner'
+            'method' => $this->userClass . '@profileOwner'
         ]);
         $policy2 = AuzoPolicy::create([
             'name' => 'Application Admin',
-            'method' => $this->user_model.'@siteAdmin'
+            'method' => $this->userClass . '@siteAdmin'
         ]);
 
         $role->givePermissionTo($ability->name)
@@ -110,11 +102,11 @@ class PermissionsTest extends AuzoTestCase
         $user2 = $this->createUser();
         $policy1 = AuzoPolicy::create([
             'name' => 'Profile Owner',
-            'method' => $this->user_model.'@profileOwner'
+            'method' => $this->userClass . '@profileOwner'
         ]);
         $policy2 = AuzoPolicy::create([
             'name' => 'Application Admin',
-            'method' => $this->user_model.'@siteAdmin'
+            'method' => $this->userClass . '@siteAdmin'
         ]);
 
         $role->givePermissionTo($ability->name)
@@ -147,8 +139,7 @@ class PermissionsTest extends AuzoTestCase
 
         AuzoPermissionRegistrar::registerPermissions();
 
-        $router = app(Router::class);
-        $router->get('user-profile-test', function(){
+        Route::get('user-profile-test', function (){
             return 'hello there';
         })->middleware('auzo.acl:user-profile');
 
@@ -156,10 +147,10 @@ class PermissionsTest extends AuzoTestCase
             ->visit('/user-profile-test')
             ->see('hello there');
 
-        try {
+        try{
             $this->actingAs($user2)->visit('/user-profile-test');
-        } catch (\Exception $e) {
-            $this->assertContains ("Received status code [403]",$e->getMessage());
+        }catch (\Exception $e){
+            $this->assertContains ("abort(403)",$e->getTraceAsString());
         }
 
     }
@@ -175,11 +166,11 @@ class PermissionsTest extends AuzoTestCase
         $user2 = $this->createUser();
         $policy1 = AuzoPolicy::create([
             'name' => 'Profile Owner',
-            'method' => $this->user_model.'@profileOwner'
+            'method' => $this->userClass . '@profileOwner'
         ]);
         $policy2 = AuzoPolicy::create([
             'name' => 'Application Admin',
-            'method' => $this->user_model.'@siteAdmin'
+            'method' => $this->userClass . '@siteAdmin'
         ]);
 
         $role1->givePermissionTo($ability->name)
@@ -193,10 +184,9 @@ class PermissionsTest extends AuzoTestCase
 
         AuzoPermissionRegistrar::registerPermissions();
 
-        $router = app(Router::class);
-        $router->get('user-profile-test/{id}', function($id){
+        Route::get('user-profile-test/{id}', function ($id){
             return "hello there user $id";
-        })->name('user.profile.test')->middleware('auzo.acl'); 
+        })->name('user.profile.test')->middleware('auzo.acl');
 
         // user1 can view any user profile as an admin policy
         $this->actingAs($user1)
@@ -210,10 +200,10 @@ class PermissionsTest extends AuzoTestCase
             ->visit('/user-profile-test/2')
             ->see('hello there user 2');
 
-        try {
+        try{
             $this->actingAs($user2)->visit('/user-profile-test/1');
-        } catch (\Exception $e) {
-            $this->assertContains ("Received status code [403]",$e->getMessage());
+        }catch (\Exception $e){
+            $this->assertContains("Received status code [403]", $e->getMessage());
         }
 
     }
@@ -228,7 +218,7 @@ class PermissionsTest extends AuzoTestCase
      */
     protected function createUser($params = [])
     {
-        return factory($this->user_model)->create($params);
+        return factory($this->userClass)->create($params);
     }
 
 }

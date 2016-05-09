@@ -50,7 +50,7 @@ return [
     |
     */
     
-    'middleware' => \Kordy\Auzo\Middleware\AuzoMiddelware::class,
+    'middleware' => \Kordy\Auzo\Middleware\AuzoMiddleware::class,
 
     /*
     |--------------------------------------------------------------------------
