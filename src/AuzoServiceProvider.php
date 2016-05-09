@@ -28,9 +28,6 @@ class AuzoServiceProvider extends ServiceProvider
         // Load auzo middleware
         $router->middleware('auzo.acl', config('auzo.middleware'));
 
-        // Load views
-        $this->loadViewsFrom(__DIR__.'/Views', 'auzo');
-
         /** Package Resources **/
 
         // Publish the configuration file to the application config folder
