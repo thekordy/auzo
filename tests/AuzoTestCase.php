@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 
-class AuzoTestCase extends \Orchestra\Testbench\TestCase
+abstract class AuzoTestCase extends \Orchestra\Testbench\TestCase
 {
     /**
      * The base URL to use while testing the application.
