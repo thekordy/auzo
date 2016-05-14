@@ -1,9 +1,10 @@
 <?php
 
+use Kordy\Auzo\Services\GenerateAbilitiesToDB;
+
 class PermissionsTest extends AuzoTestCase
 {
-
-
+    
     public function test_create_new_ability()
     {
         $ability = $this->createTestAbility();
@@ -13,7 +14,7 @@ class PermissionsTest extends AuzoTestCase
     public function test_can_not_duplicate_abilities()
     {
         $this->createTestAbility();
-        $this->setExpectedException('Illuminate\Database\QueryException');
+        $this->expectException('Illuminate\Database\QueryException');
         $this->createTestAbility();
     }
 
@@ -92,67 +93,6 @@ class PermissionsTest extends AuzoTestCase
 
         $this->assertTrue($user1->isCapableTo($ability->name, $user2));
         $this->assertFalse($user2->isCapableTo($ability->name, $user1));
-    }
-
-    public function test_user_inherit_role_permission_with_policies_to_ability_with_laravel_authorize()
-    {
-        $role = AuzoRole::create(['name' => 'testRole']);
-        $ability = AuzoAbility::create(['name' => 'test.ability', 'label' => 'Testing']);
-        $user1 = $this->createUser();
-        $user2 = $this->createUser();
-        $policy1 = AuzoPolicy::create([
-            'name' => 'Profile Owner',
-            'method' => $this->userClass . '@profileOwner'
-        ]);
-        $policy2 = AuzoPolicy::create([
-            'name' => 'Application Admin',
-            'method' => $this->userClass . '@siteAdmin'
-        ]);
-
-        $role->givePermissionTo($ability->name)
-            ->addPolicy($policy1)
-            ->addPolicy([$policy2->id => ['operator' => 'or']]);
-
-        $user1->assignRole($role);
-
-        AuzoPermissionRegistrar::registerPermissions();
-
-        $this->assertTrue($user1->can($ability->name, $user2));
-        $this->assertTrue($user2->cannot($ability->name, $user1));
-    }
-
-    public function test_auzo_middleware_uses_route_name_as_ability_name_for_authorization_check_with_params()
-    {
-        $ability = AuzoAbility::create(
-            ['name' => 'user-profile', 'label' => 'user profile test route']
-        );
-
-        $role = AuzoRole::create(['name' => 'testRole']);
-
-        $user1 = $this->createUser();
-
-        $user1->assignRole($role);
-
-        $role->givePermissionTo($ability->name);
-
-        $user2 = $this->createUser();
-
-        AuzoPermissionRegistrar::registerPermissions();
-
-        Route::get('user-profile-test', function (){
-            return 'hello there';
-        })->middleware('auzo.acl:user-profile');
-
-        $this->actingAs($user1)
-            ->visit('/user-profile-test')
-            ->see('hello there');
-
-        try{
-            $this->actingAs($user2)->visit('/user-profile-test');
-        }catch (\Exception $e){
-            $this->assertContains ("abort(403)",$e->getTraceAsString());
-        }
-
     }
 
     public function test_auzo_middleware_uses_route_name_as_ability_name_for_authorization_check_with_policies()

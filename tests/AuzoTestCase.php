@@ -57,7 +57,7 @@ abstract class AuzoTestCase extends \Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        return ['Kordy\Auzo\AuzoServiceProvider'];
+        return ['Kordy\Auzo\AuzoServiceProvider', 'Kordy\AuzoTools\AuzoToolsServiceProvider'];
     }
 }
 
