@@ -2,11 +2,11 @@
 
 namespace Kordy\Auzo\Services;
 
+use AuzoAbility;
 use Exception;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Cache\Repository;
 use Log;
-use AuzoAbility;
 
 class PermissionRegistrar
 {
@@ -56,7 +56,6 @@ class PermissionRegistrar
             // TODO add configurable after method
             // $this->gate->after(function ($user, $ability, $result, $arguments) {});
             return true;
-            
         } catch (Exception $e) {
             Log::alert('Could not register abilities .. '.$e);
 

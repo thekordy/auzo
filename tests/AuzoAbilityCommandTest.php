@@ -6,185 +6,185 @@ class AuzoAbilityCommandTest extends AuzoTestCase
         'model' => [
             [
                 'name' => 'ability.index',
-                'tag' => 'ability'
+                'tag'  => 'ability',
             ],
 
             [
                 'name' => 'ability.create',
-                'tag' => 'ability'
+                'tag'  => 'ability',
             ],
 
             [
                 'name' => 'ability.store',
-                'tag' => 'ability'
+                'tag'  => 'ability',
             ],
 
             [
                 'name' => 'ability.show',
-                'tag' => 'ability'
+                'tag'  => 'ability',
             ],
 
             [
                 'name' => 'ability.edit',
-                'tag' => 'ability'
+                'tag'  => 'ability',
             ],
 
             [
                 'name' => 'ability.update',
-                'tag' => 'ability'
+                'tag'  => 'ability',
             ],
 
             [
                 'name' => 'ability.destroy',
-                'tag' => 'ability'
-            ]
+                'tag'  => 'ability',
+            ],
         ],
 
         'fields' => [
 
             [
                 'name' => 'ability.index.id',
-                'tag' => 'ability.index'
+                'tag'  => 'ability.index',
             ],
 
             [
                 'name' => 'ability.create.id',
-                'tag' => 'ability.create'
+                'tag'  => 'ability.create',
             ],
 
             [
                 'name' => 'ability.store.id',
-                'tag' => 'ability.store'
+                'tag'  => 'ability.store',
             ],
 
             [
                 'name' => 'ability.show.id',
-                'tag' => 'ability.show'
+                'tag'  => 'ability.show',
             ],
 
             [
                 'name' => 'ability.edit.id',
-                'tag' => 'ability.edit'
+                'tag'  => 'ability.edit',
             ],
 
             [
                 'name' => 'ability.update.id',
-                'tag' => 'ability.update'
+                'tag'  => 'ability.update',
             ],
 
             [
                 'name' => 'ability.destroy.id',
-                'tag' => 'ability.destroy'
+                'tag'  => 'ability.destroy',
             ],
 
             [
                 'name' => 'ability.index.name',
-                'tag' => 'ability.index'
+                'tag'  => 'ability.index',
             ],
 
             [
                 'name' => 'ability.create.name',
-                'tag' => 'ability.create'
+                'tag'  => 'ability.create',
             ],
 
             [
                 'name' => 'ability.store.name',
-                'tag' => 'ability.store'
+                'tag'  => 'ability.store',
             ],
 
             [
                 'name' => 'ability.show.name',
-                'tag' => 'ability.show'
+                'tag'  => 'ability.show',
             ],
 
             [
                 'name' => 'ability.edit.name',
-                'tag' => 'ability.edit'
+                'tag'  => 'ability.edit',
             ],
 
             [
                 'name' => 'ability.update.name',
-                'tag' => 'ability.update'
+                'tag'  => 'ability.update',
             ],
 
             [
                 'name' => 'ability.destroy.name',
-                'tag' => 'ability.destroy'
+                'tag'  => 'ability.destroy',
             ],
 
             [
                 'name' => 'ability.index.label',
-                'tag' => 'ability.index'
+                'tag'  => 'ability.index',
             ],
 
             [
                 'name' => 'ability.create.label',
-                'tag' => 'ability.create'
+                'tag'  => 'ability.create',
             ],
 
             [
                 'name' => 'ability.store.label',
-                'tag' => 'ability.store'
+                'tag'  => 'ability.store',
             ],
 
             [
                 'name' => 'ability.show.label',
-                'tag' => 'ability.show'
+                'tag'  => 'ability.show',
             ],
 
             [
                 'name' => 'ability.edit.label',
-                'tag' => 'ability.edit'
+                'tag'  => 'ability.edit',
             ],
 
             [
                 'name' => 'ability.update.label',
-                'tag' => 'ability.update'
+                'tag'  => 'ability.update',
             ],
 
             [
                 'name' => 'ability.destroy.label',
-                'tag' => 'ability.destroy'
+                'tag'  => 'ability.destroy',
             ],
 
             [
                 'name' => 'ability.index.tag',
-                'tag' => 'ability.index'
+                'tag'  => 'ability.index',
             ],
 
             [
                 'name' => 'ability.create.tag',
-                'tag' => 'ability.create'
+                'tag'  => 'ability.create',
             ],
 
             [
                 'name' => 'ability.store.tag',
-                'tag' => 'ability.store'
+                'tag'  => 'ability.store',
             ],
 
             [
                 'name' => 'ability.show.tag',
-                'tag' => 'ability.show'
+                'tag'  => 'ability.show',
             ],
 
             [
                 'name' => 'ability.edit.tag',
-                'tag' => 'ability.edit'
+                'tag'  => 'ability.edit',
             ],
 
             [
                 'name' => 'ability.update.tag',
-                'tag' => 'ability.update'
+                'tag'  => 'ability.update',
             ],
 
             [
                 'name' => 'ability.destroy.tag',
-                'tag' => 'ability.destroy'
-            ]
-        ]
+                'tag'  => 'ability.destroy',
+            ],
+        ],
     ];
 
-    function test_auzo_ability_generate_artisan_command()
+    public function test_auzo_ability_generate_artisan_command()
     {
         $this->artisan('auzo:ability', ['operation' => 'generate', 'value' => 'AuzoAbility']);
 
@@ -197,7 +197,7 @@ class AuzoAbilityCommandTest extends AuzoTestCase
         $this->assertEquals($full_expected_model_generated, $saved_abilities);
     }
 
-    function test_auzo_ability_generate_artisan_command_model_option()
+    public function test_auzo_ability_generate_artisan_command_model_option()
     {
         $this->artisan('auzo:ability', ['operation' => 'generate', 'value' => 'AuzoAbility', '--option' => 'model']);
 
@@ -206,7 +206,7 @@ class AuzoAbilityCommandTest extends AuzoTestCase
         $this->assertEquals($this->expected_saved_generated_abilities['model'], $saved_abilities);
     }
 
-    function test_auzo_ability_generate_artisan_command_fields_option()
+    public function test_auzo_ability_generate_artisan_command_fields_option()
     {
         $this->artisan('auzo:ability', ['operation' => 'generate', 'value' => 'AuzoAbility', '--option' => 'fields']);
 
@@ -214,5 +214,4 @@ class AuzoAbilityCommandTest extends AuzoTestCase
 
         $this->assertEquals($this->expected_saved_generated_abilities['fields'], $saved_abilities);
     }
-
 }

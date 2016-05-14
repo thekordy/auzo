@@ -28,6 +28,7 @@ trait HasRoleTrait
     {
         $this->role_id = $this->getRoleId($role);
         $this->save();
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ trait HasRoleTrait
     {
         $this->role_id = null;
         $this->save();
+
         return $this;
     }
 
@@ -52,7 +54,7 @@ trait HasRoleTrait
      */
     public function hasRole($roles)
     {
-        if($user_role = $this->role) {
+        if ($user_role = $this->role) {
             // given a role name to check
             if (is_string($roles)) {
                 return $user_role->name == $roles;
@@ -72,13 +74,15 @@ trait HasRoleTrait
                 }
             }
         }
+
         return false;
     }
 
     /**
-     * check permission inheritance through roles
+     * check permission inheritance through roles.
      *
      * @param $ability
+     *
      * @return bool
      */
     public function hasPermissionTo($ability)
@@ -86,14 +90,16 @@ trait HasRoleTrait
         if ($role = $this->role) {
             return $role->hasPermissionTo($ability);
         }
+
         return false;
     }
 
     /**
-     * check if has capability via inherited from role
+     * check if has capability via inherited from role.
      *
      * @param $ability
      * @param null $model
+     *
      * @return bool
      */
     public function isCapableTo($ability, $model = null)
@@ -101,13 +107,16 @@ trait HasRoleTrait
         if ($role = $this->role) {
             return $role->isCapableTo($ability, $model);
         }
+
         return false;
     }
 
     /**
      * @param $role
-     * @return integer
+     *
      * @throws \Exception
+     *
+     * @return int
      */
     protected function getRoleId($role)
     {
@@ -118,7 +127,7 @@ trait HasRoleTrait
         if ($role instanceof $role_inst) {
             return $role->id;
         }
-        if (is_integer($role)) {
+        if (is_int($role)) {
             return $role;
         }
         throw new \Exception("Could not extract a valid role id from $role");

@@ -8,27 +8,31 @@ use Kordy\AuzoTools\Services\GenerateAbilities;
 class GenerateAbilitiesToDB extends GenerateAbilities
 {
     /**
-     * Save generated models and fields abilities to database
+     * Save generated models and fields abilities to database.
      *
      * @param string $delimiter
-     * @return GenerateAbilities
+     *
      * @throws \Exception
+     *
+     * @return GenerateAbilities
      */
     public function saveToDB($delimiter = '.')
     {
         $this->saveModelToDB($delimiter);
-        
+
         $this->saveFieldsToDB();
-        
+
         return $this;
     }
 
     /**
-     * Save generated model abilities to database
+     * Save generated model abilities to database.
      *
      * @param string $delimiter
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function saveModelToDB($delimiter = '.')
     {
@@ -43,17 +47,19 @@ class GenerateAbilitiesToDB extends GenerateAbilities
             $saved_abilities[] = AuzoAbilityFacade::create([
                 'name' => $model_ability,
                 // set model name as a tag
-                'tag' => $model_name
+                'tag' => $model_name,
             ]);
         }
+
         return $saved_abilities;
     }
 
     /**
-     * Save generated fields abilities to database
-     * 
-     * @return bool
+     * Save generated fields abilities to database.
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function saveFieldsToDB()
     {
@@ -68,10 +74,11 @@ class GenerateAbilitiesToDB extends GenerateAbilities
                 $saved_abilities[] = AuzoAbilityFacade::create([
                     'name' => $field_ability,
                     // set parent model ability name as a tag
-                    'tag' => $parent_model_ability
+                    'tag' => $parent_model_ability,
                 ]);
             }
         }
+
         return $saved_abilities;
     }
 }

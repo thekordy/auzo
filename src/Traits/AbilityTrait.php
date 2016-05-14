@@ -7,7 +7,7 @@ trait AbilityTrait
     use RefreshesPermissionCache;
 
     /**
-     * Get all assigned abilities to users
+     * Get all assigned abilities to users.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -17,21 +17,23 @@ trait AbilityTrait
     }
 
     /**
-     * Find Ability by its name
+     * Find Ability by its name.
      *
      * @param $query
      * @param string $name
+     *
      * @return AbilityTrait
      */
-    public function scopeFindByName($query, $name) 
+    public function scopeFindByName($query, $name)
     {
         return $query->where('name', $name)->first();
     }
 
     /**
-     * Find ability by name or id
-     * 
-     * @param string|integer|object $ability
+     * Find ability by name or id.
+     *
+     * @param string|int|object $ability
+     *
      * @return bool
      */
     public function findByNameOrId($ability)
@@ -39,12 +41,13 @@ trait AbilityTrait
         if (is_string($ability)) {
             return $this->findByName($ability);
         }
-        if (is_integer($ability)) {
+        if (is_int($ability)) {
             return $this->find($ability);
         }
         if ($ability instanceof $this) {
             return $ability;
         }
+
         return false;
     }
 }

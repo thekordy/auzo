@@ -38,7 +38,7 @@ return [
     | You may here add custom registrar where the Laravel Gate abilities are defined
     |
     */
-    
+
     'registrar' => \Kordy\Auzo\Services\PermissionRegistrar::class,
 
     /*
@@ -49,7 +49,7 @@ return [
     | You may here add custom middleware that can be used for routes and controller
     |
     */
-    
+
     'middleware' => \Kordy\Auzo\Middleware\AuzoMiddleware::class,
 
     /*
@@ -61,19 +61,18 @@ return [
     | with the package
     |
     */
-    
+
     'models' => [
-        
+
         'user' => $user_model,
 
-        'ability' =>  \Kordy\Auzo\Models\Ability::class,
+        'ability' => \Kordy\Auzo\Models\Ability::class,
 
-        'policy' =>  \Kordy\Auzo\Models\Policy::class,
+        'policy' => \Kordy\Auzo\Models\Policy::class,
 
-        'permission' =>  \Kordy\Auzo\Models\Permission::class,
+        'permission' => \Kordy\Auzo\Models\Permission::class,
 
-        'role' =>  \Kordy\Auzo\Models\Role::class
+        'role' => \Kordy\Auzo\Models\Role::class,
     ],
 
-    
 ];

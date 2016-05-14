@@ -2,28 +2,27 @@
 
 namespace Kordy\Auzo;
 
+use AuzoPermissionRegistrar;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Kordy\Auzo\Facades\AuzoAbilityFacade;
-use Kordy\Auzo\Facades\AuzoPolicyFacade;
 use Kordy\Auzo\Facades\AuzoPermissionFacade;
 use Kordy\Auzo\Facades\AuzoPermissionRegistrarFacade;
+use Kordy\Auzo\Facades\AuzoPolicyFacade;
 use Kordy\Auzo\Facades\AuzoRoleFacade;
-use AuzoPermissionRegistrar;
 use Kordy\Auzo\Facades\AuzoUserFacade;
 
 class AuzoServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap Auzo application services.
-     * 
      */
     public function boot()
     {
         // Load stored users abilities to Laravel Gate
         AuzoPermissionRegistrar::registerPermissions();
 
-        /** Package Resources **/
+        /* Package Resources **/
 
         // Publish the configuration file to the application config folder
         $this->publishes([
@@ -32,7 +31,7 @@ class AuzoServiceProvider extends ServiceProvider
 
         // Publish the migrations files to the application database migrations folder
         $this->publishes([
-            __DIR__.'/Migrations/' => database_path('migrations')
+            __DIR__.'/Migrations/' => database_path('migrations'),
         ], 'migrations');
     }
 
