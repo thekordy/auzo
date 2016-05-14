@@ -2,16 +2,15 @@
 
 namespace Kordy\Auzo\Traits;
 
-use Illuminate\Http\Request;
-use \Exception;
 use AuzoAbility;
+use Exception;
 
 trait RoleTrait
 {
     use RefreshesPermissionCache;
 
     /**
-     * User relationship
+     * User relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -33,9 +32,11 @@ trait RoleTrait
     /**
      * Grant permission to the given ability.
      *
-     * @param string|integer|array $abilities
-     * @return PermissionTrait
+     * @param string|int|array $abilities
+     *
      * @throws \Exception
+     *
+     * @return PermissionTrait
      */
     public function givePermissionTo($abilities)
     {
@@ -43,6 +44,7 @@ trait RoleTrait
             foreach ($abilities as $ability) {
                 $permissions[] = $this->createPermission($ability);
             }
+
             return $permissions;
         }
 
@@ -52,9 +54,12 @@ trait RoleTrait
     /**
      * Remove permission to the given ability.
      *
-     * @param string|integer|array $abilities
-     * @return PermissionTrait
+     * @param string|int|array $abilities
+     *
      * @throws \Exception
+     *
+     * @return PermissionTrait
+     *
      * @internal param $ability
      */
     public function removePermissionTo($abilities)
@@ -63,6 +68,7 @@ trait RoleTrait
             foreach ($abilities as $ability) {
                 $this->removePermission($ability);
             }
+
             return true;
         }
 
@@ -71,49 +77,60 @@ trait RoleTrait
 
     /**
      * @param $ability
-     * @return Permission
+     *
      * @throws Exception
+     *
+     * @return Permission
      */
     protected function createPermission($ability)
     {
-        if (! AuzoAbility::findByNameOrId($ability)) {
+        if (!AuzoAbility::findByNameOrId($ability)) {
             throw new Exception('Wrong ability identifier!');
         }
+
         return $this->permissions()->create(['ability_id' => AuzoAbility::findByNameOrId($ability)->id]);
     }
 
     /**
      * @param $ability
-     * @return bool
+     *
      * @throws Exception
+     *
+     * @return bool
+     *
      * @internal param $abilities
      */
     protected function removePermission($ability)
     {
-        if (! AuzoAbility::findByNameOrId($ability)) {
+        if (!AuzoAbility::findByNameOrId($ability)) {
             throw new Exception('Wrong ability identifier!');
         }
         $this->permissions()->forAbility($ability)->delete();
+
         return true;
     }
 
     /**
-     * Check if has a permission to ability
+     * Check if has a permission to ability.
      *
-     * @param string|integer|array|object $ability
+     * @param string|int|array|object $ability
+     *
      * @return bool
      */
-    public function hasPermissionTo($ability) {
+    public function hasPermissionTo($ability)
+    {
         if (is_array($ability)) {
             return $this->permissionTo($ability)->count() === count($ability);
         }
-        return !! $this->permissionTo($ability)->first();
+
+        return (bool) $this->permissionTo($ability)->first();
     }
 
     /**
-     * Get the permission instance to an ability
+     * Get the permission instance to an ability.
      *
      * @param $ability
+     *
      * @return mixed
      */
     public function permissionTo($ability)
@@ -122,15 +139,16 @@ trait RoleTrait
     }
 
     /**
-     * Similar to hasPermissionTo but it also checking all of the permission policies
+     * Similar to hasPermissionTo but it also checking all of the permission policies.
      *
-     * @param string|integer|object $ability
-     * @param null|object $model
+     * @param string|int|object $ability
+     * @param null|object       $model
+     *
      * @return bool
      */
     public function isCapableTo($ability, $model = null)
     {
-        if (! $this->hasPermissionTo($ability)) {
+        if (!$this->hasPermissionTo($ability)) {
             return false;
         }
 
@@ -144,10 +162,11 @@ trait RoleTrait
     }
 
     /**
-     * apply policies of permission on a given model
+     * apply policies of permission on a given model.
      *
      * @param $model
      * @param $policies
+     *
      * @return bool
      */
     protected function processPermissionPolicies($policies, $model)
@@ -168,12 +187,12 @@ trait RoleTrait
     }
 
     /**
-     * Find Role by its name
-     * 
+     * Find Role by its name.
+     *
      * @param $query
      * @param string $name
      */
-    public function scopeFindByName($query, $name) 
+    public function scopeFindByName($query, $name)
     {
         $query->where('name', $name);
     }

@@ -1,10 +1,8 @@
 <?php
 
-use Kordy\Auzo\Services\GenerateAbilitiesToDB;
 
 class PermissionsTest extends AuzoTestCase
 {
-    
     public function test_create_new_ability()
     {
         $ability = $this->createTestAbility();
@@ -77,12 +75,12 @@ class PermissionsTest extends AuzoTestCase
         $user1 = $this->createUser();
         $user2 = $this->createUser();
         $policy1 = AuzoPolicy::create([
-            'name' => 'Profile Owner',
-            'method' => $this->userClass . '@profileOwner'
+            'name'   => 'Profile Owner',
+            'method' => $this->userClass.'@profileOwner',
         ]);
         $policy2 = AuzoPolicy::create([
-            'name' => 'Application Admin',
-            'method' => $this->userClass . '@siteAdmin'
+            'name'   => 'Application Admin',
+            'method' => $this->userClass.'@siteAdmin',
         ]);
 
         $role->givePermissionTo($ability->name)
@@ -105,12 +103,12 @@ class PermissionsTest extends AuzoTestCase
         $user1 = $this->createUser();
         $user2 = $this->createUser();
         $policy1 = AuzoPolicy::create([
-            'name' => 'Profile Owner',
-            'method' => $this->userClass . '@profileOwner'
+            'name'   => 'Profile Owner',
+            'method' => $this->userClass.'@profileOwner',
         ]);
         $policy2 = AuzoPolicy::create([
-            'name' => 'Application Admin',
-            'method' => $this->userClass . '@siteAdmin'
+            'name'   => 'Application Admin',
+            'method' => $this->userClass.'@siteAdmin',
         ]);
 
         $role1->givePermissionTo($ability->name)
@@ -124,7 +122,7 @@ class PermissionsTest extends AuzoTestCase
 
         AuzoPermissionRegistrar::registerPermissions();
 
-        Route::get('user-profile-test/{id}', function ($id){
+        Route::get('user-profile-test/{id}', function ($id) {
             return "hello there user $id";
         })->name('user.profile.test')->middleware('auzo.acl');
 
@@ -140,12 +138,11 @@ class PermissionsTest extends AuzoTestCase
             ->visit('/user-profile-test/2')
             ->see('hello there user 2');
 
-        try{
+        try {
             $this->actingAs($user2)->visit('/user-profile-test/1');
-        }catch (\Exception $e){
-            $this->assertContains("Received status code [403]", $e->getMessage());
+        } catch (\Exception $e) {
+            $this->assertContains('Received status code [403]', $e->getMessage());
         }
-
     }
 
     protected function createTestAbility()
@@ -160,5 +157,4 @@ class PermissionsTest extends AuzoTestCase
     {
         return factory($this->userClass)->create($params);
     }
-
 }

@@ -2,13 +2,13 @@
 
 namespace Kordy\Auzo\Models;
 
-use Kordy\Auzo\Traits\AbilityTrait;
 use Illuminate\Database\Eloquent\Model;
+use Kordy\Auzo\Traits\AbilityTrait;
 
 class Ability extends Model
 {
-    use AbilityTrait; 
-    
+    use AbilityTrait;
+
     protected $fillable = ['name', 'label', 'tag'];
     protected $table = 'abilities';
     public $timestamps = false;

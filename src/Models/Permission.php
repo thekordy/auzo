@@ -8,7 +8,7 @@ use Kordy\Auzo\Traits\PermissionTrait;
 class Permission extends Model
 {
     use PermissionTrait;
-    
+
     protected $fillable = ['ability_id', 'role_id'];
     protected $table = 'permissions';
     public $timestamps = false;

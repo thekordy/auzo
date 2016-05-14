@@ -7,19 +7,21 @@ trait PolicyTrait
     use RefreshesPermissionCache;
 
     /**
-     * Get all permissions that has policies
-     * 
+     * Get all permissions that has policies.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function permissions() {
+    public function permissions()
+    {
         return $this->belongsToMany(app('AuzoPermission'), 'permission_policy')->withPivot('id', 'operator');
     }
 
     /**
-     * Find policy by its label
+     * Find policy by its label.
      *
      * @param $query
      * @param string $name
+     *
      * @return PolicyTrait
      */
     public function scopeFindByName($query, $name)
@@ -28,10 +30,12 @@ trait PolicyTrait
     }
 
     /**
-     * Find policy by name or id
+     * Find policy by name or id.
      *
-     * @param string|integer|object $policy
+     * @param string|int|object $policy
+     *
      * @return bool
+     *
      * @internal param $ability
      */
     public function findByNameOrId($policy)
@@ -39,12 +43,13 @@ trait PolicyTrait
         if (is_string($policy)) {
             return $this->findByName($policy);
         }
-        if (is_integer($policy)) {
+        if (is_int($policy)) {
             return $this->findOrFail($policy);
         }
         if ($policy instanceof $this) {
             return $policy;
         }
+
         return false;
     }
 }
