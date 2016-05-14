@@ -214,4 +214,20 @@ class AuzoAbilityCommandTest extends AuzoTestCase
 
         $this->assertEquals($this->expected_saved_generated_abilities['fields'], $saved_abilities);
     }
+
+    public function test_auzo_ability_create_artisan_command()
+    {
+        $this->artisan('auzo:ability', [
+            'operation' => 'create',
+            'value' => 'ability.index',
+            '--label' => 'Ability Index',
+            '--tag' => 'ability',
+        ]);
+
+        $this->seeInDatabase(app('AuzoAbility')->getTable(), [
+            'name' => 'ability.index',
+            'label' => 'Ability Index',
+            'tag' => 'ability',
+        ]);
+    }
 }
