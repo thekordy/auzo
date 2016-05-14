@@ -4,7 +4,6 @@ namespace Kordy\Auzo;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Routing\Router;
 use Kordy\Auzo\Facades\AuzoAbilityFacade;
 use Kordy\Auzo\Facades\AuzoPolicyFacade;
 use Kordy\Auzo\Facades\AuzoPermissionFacade;
@@ -18,15 +17,11 @@ class AuzoServiceProvider extends ServiceProvider
     /**
      * Bootstrap Auzo application services.
      * 
-     * @param Router $router
      */
-    public function boot(Router $router)
+    public function boot()
     {
         // Load stored users abilities to Laravel Gate
         AuzoPermissionRegistrar::registerPermissions();
-        
-        // Load auzo middleware
-        $router->middleware('auzo.acl', config('auzo.middleware'));
 
         /** Package Resources **/
 
@@ -54,6 +49,7 @@ class AuzoServiceProvider extends ServiceProvider
         );
         $this->registerModelBindings();
         $this->registerFacadesAliases();
+        $this->registerCommands();
     }
 
     /**
@@ -84,5 +80,19 @@ class AuzoServiceProvider extends ServiceProvider
         $loader->alias('AuzoPermission', AuzoPermissionFacade::class);
         $loader->alias('AuzoRole', AuzoRoleFacade::class);
         $loader->alias('AuzoUser', AuzoUserFacade::class);
+    }
+
+    /**
+     * Register the commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        $commands = [
+            'Kordy\Auzo\Commands\AuzoAbility',
+        ];
+
+        $this->commands($commands);
     }
 }
