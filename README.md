@@ -186,9 +186,9 @@ This will use `GenerateAbilities` from [AuzoTools](https://github.com/thekordy/a
 
 ```bash
 php artisan auzo:ability generate 'App\Post'
-// or to generate only model abilities
+# or to generate only model abilities
 php artisan auzo:ability generate 'App\Post' --model
-// or to generate only fields abilities
+# or to generate only fields abilities
 php artisan auzo:ability generate 'App\Post' --fields
 ```
 This will generate and save all abilities below to abilities table:
