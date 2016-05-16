@@ -27,6 +27,7 @@ This service provider must be installed.
 'providers' => [
     ...
     Kordy\Auzo\AuzoServiceProvider::class,
+    Kordy\AuzoTools\AuzoToolsServiceProvider::class,
 ];
 ```
 
