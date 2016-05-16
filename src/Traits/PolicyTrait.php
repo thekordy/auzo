@@ -15,5 +15,4 @@ trait PolicyTrait
     {
         return $this->belongsToMany(app('AuzoPermission'), 'permission_policy')->withPivot('id', 'operator');
     }
-
 }

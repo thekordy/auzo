@@ -50,8 +50,8 @@ class AuzoPolicy extends Command
     private function create($name, $method)
     {
         AuzoPolicyFacade::create([
-            'name' => $name,
-            'method' => $method
+            'name'   => $name,
+            'method' => $method,
         ]);
 
         $this->info("$name is created.");

@@ -219,15 +219,15 @@ class AuzoAbilityCommandTest extends AuzoTestCase
     {
         $this->artisan('auzo:ability', [
             'operation' => 'create',
-            'value' => 'ability.index',
-            '--label' => 'Ability Index',
-            '--tag' => 'ability',
+            'value'     => 'ability.index',
+            '--label'   => 'Ability Index',
+            '--tag'     => 'ability',
         ]);
 
         $this->seeInDatabase(app('AuzoAbility')->getTable(), [
-            'name' => 'ability.index',
+            'name'  => 'ability.index',
             'label' => 'Ability Index',
-            'tag' => 'ability',
+            'tag'   => 'ability',
         ]);
     }
 

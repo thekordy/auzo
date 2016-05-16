@@ -11,17 +11,17 @@ class AuzoPermissionCommandTest extends AuzoTestCase
         $policy2 = AuzoPolicy::create(['name' => 'test Policy 2', 'method' => 'Controller@method2']);
 
         $this->artisan('auzo:permission', [
-            'operation' => 'give', 
-            'role' => 'testRole',
-            'abilities' => 'ability.test,ability.test2', // abilities names or ids separated with ,
-            '--policies' => '1,2:||' // Policies ids separated with ,
+            'operation'  => 'give',
+            'role'       => 'testRole',
+            'abilities'  => 'ability.test,ability.test2', // abilities names or ids separated with ,
+            '--policies' => '1,2:||', // Policies ids separated with ,
         ]);
 
         $role_permission1_policy1 = $role->permissions->first()->policies->first();
-        $role_permission1_policy2 = $role->permissions->first()->policies->slice(1,1)[0];
+        $role_permission1_policy2 = $role->permissions->first()->policies->slice(1, 1)[0];
 
-        $role_permission2_policy1 = $role->permissions->slice(1,1)[0]->policies->first();
-        $role_permission2_policy2 = $role->permissions->slice(1,1)[0]->policies->slice(1,1)[0];
+        $role_permission2_policy1 = $role->permissions->slice(1, 1)[0]->policies->first();
+        $role_permission2_policy2 = $role->permissions->slice(1, 1)[0]->policies->slice(1, 1)[0];
 
         // role has assigned the permission1 with policy1
         $this->assertEquals($policy1->name, $role_permission1_policy1->name);
@@ -44,18 +44,18 @@ class AuzoPermissionCommandTest extends AuzoTestCase
         AuzoAbility::create(['name' => 'ability.test']);
         AuzoAbility::create(['name' => 'ability.test2']);
 
-        $role->givePermissionTo([1,2]);
-        
+        $role->givePermissionTo([1, 2]);
+
         // Role has been given the permissions
         $this->assertFalse(AuzoRole::find(1)->permissions->isEmpty());
 
         $this->artisan('auzo:permission', [
             '--no-interaction' => true,
-            'operation' => 'remove',
-            'role' => 'testRole',
-            'abilities' => 'ability.test,ability.test2'
+            'operation'        => 'remove',
+            'role'             => 'testRole',
+            'abilities'        => 'ability.test,ability.test2',
         ]);
-        
+
         // Permissions are removed
         $this->assertTrue(AuzoRole::find(1)->permissions->isEmpty());
     }
