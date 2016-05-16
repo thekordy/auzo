@@ -1,16 +1,20 @@
 Central management interface with database and user roles for Laravel 5.1 and
 5.2 users authorize system.
 
-Ever thought about a way to put a policy or condition on every permission as a restriction, something like: allow authenticated user to modify posts **Only if he is the post author** or **Only if he is in the same group as the author** or **Only if the post is not published** ... etc
+Ever thought about a way to put a policy or condition on every permission as
+ a restriction, something like: allow authenticated user to modify posts 
+ **Only if he is the post author** or **Only if he is in the same group as the author** 
+ or **Only if the post is not published** ... etc
 
-This package fills this gap by restricting user's role permission with a condition/policy, and it follows RBAC approach providing users roles.
+This package fills this gap by restricting user's role permission 
+with a condition/policy, and it follows RBAC approach providing users roles.
 
-This package will install database tables to store abilities, user roles,
+Database tables will be installed to store abilities, user roles,
 permissions, and custom condition/policy per each permission you give.
 
-This package requires [AuzoTools](https://github.com/thekordy/auzo-tools/)
-which provides several great tools that facilitates Laravel authorize
-management.
+[AuzoTools](https://github.com/thekordy/auzo-tools/) package is 
+required and will be installed, it provides several great tools 
+that facilitates Laravel authorize management.
 
 ## What you can do with this package:
 1. [Manage Abilities](#abilities)
@@ -40,8 +44,8 @@ You can publish the migrations with:
 php artisan vendor:publish --provider="Kordy\Auzo\AuzoServiceProvider" --tag="migrations"
 ```
 
-After the migration has been published you can create the role- and permission-tables by
-running the migrations:
+After the migration has been published you can create the role- and 
+permission-tables by running the migrations:
 
 ```bash
 php artisan migrate
