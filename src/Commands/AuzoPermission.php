@@ -47,7 +47,7 @@ class AuzoPermission extends Command
     }
 
     /**
-     * Give ability permission to a role
+     * Give ability permission to a role.
      *
      * @param $role
      * @param $abilities
@@ -82,7 +82,6 @@ class AuzoPermission extends Command
         $role = AuzoRoleFacade::findByNameOrId($role)->first();
 
         if ($no_interaction || $this->confirm("$role is going to be deleted. Do you wish to continue? [y|N]")) {
-
             $role->removePermissionTo($abilities);
 
             foreach ($abilities as $ability) {
@@ -93,23 +92,23 @@ class AuzoPermission extends Command
 
     /**
      * @param $policies
+     *
      * @return array|int
      */
     private function extractPolicies($policies)
     {
         if (strpos($policies, ',')) {
             $final_policies = [];
-            foreach (explode(",", $policies) as $policy) {
+            foreach (explode(',', $policies) as $policy) {
                 if (strpos($policy, ':')) {
-                    list($id, $operator) = explode(":", $policy);
-                    $final_policies[] = [ (int)$id => ['operator' => $operator] ];
+                    list($id, $operator) = explode(':', $policy);
+                    $final_policies[] = [(int) $id => ['operator' => $operator]];
                 } else {
-                    $final_policies[] = (int)$policy;
+                    $final_policies[] = (int) $policy;
                 }
-
             }
         } else {
-            $final_policies[] = (int)$policies;
+            $final_policies[] = (int) $policies;
         }
 
         return $final_policies;
@@ -119,7 +118,7 @@ class AuzoPermission extends Command
     {
         if (strpos($abilities, ',')) {
             $final_abilities = [];
-            foreach (explode(",", $abilities) as $ability) {
+            foreach (explode(',', $abilities) as $ability) {
                 $final_abilities[] = $ability;
             }
         } else {

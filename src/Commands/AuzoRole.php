@@ -48,8 +48,8 @@ class AuzoRole extends Command
     private function create($role, $description)
     {
         AuzoRoleFacade::create([
-            'name' => $role,
-            'description' => $description
+            'name'        => $role,
+            'description' => $description,
         ]);
 
         $this->info("$role is created.");

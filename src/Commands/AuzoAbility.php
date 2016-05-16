@@ -75,11 +75,11 @@ class AuzoAbility extends Command
     {
         $label = $this->option('label');
         $tag = $this->option('tag');
-        
+
         AuzoAbilityFacade::create([
-            'name' => $value,
+            'name'  => $value,
             'label' => $label,
-            'tag' => $tag
+            'tag'   => $tag,
         ]);
 
         $this->info("$value is created.");

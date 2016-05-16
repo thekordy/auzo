@@ -46,7 +46,7 @@ class AuzoUser extends Command
     }
 
     /**
-     * Assign role to users
+     * Assign role to users.
      *
      * @param $role
      * @param $users
@@ -65,10 +65,8 @@ class AuzoUser extends Command
         $no_interaction = $this->option('no-interaction');
 
         if ($no_interaction || $this->confirm(
-                "user(s) ".implode(',', $users)." is going to be revoked from role $role. Do you wish to continue? [y|N]"
-            )) 
-        {
-
+                'user(s) '.implode(',', $users)." is going to be revoked from role $role. Do you wish to continue? [y|N]"
+            )) {
             foreach ($users as $user) {
                 $user = AuzoUserFacade::findOrFail($user)->revokeRole($role);
                 $this->info("user $user is revoked from role $role.");
@@ -78,17 +76,18 @@ class AuzoUser extends Command
 
     /**
      * @param $users
+     *
      * @return array|int
      */
     private function extractArgument($users)
     {
         if (strpos($users, ',')) {
             $final_users = [];
-            foreach (explode(",", $users) as $user) {
-                $final_users[] = (int)$user;
+            foreach (explode(',', $users) as $user) {
+                $final_users[] = (int) $user;
             }
         } else {
-            $final_users[] = (int)$users;
+            $final_users[] = (int) $users;
         }
 
         return $final_users;

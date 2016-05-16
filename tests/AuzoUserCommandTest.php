@@ -10,8 +10,8 @@ class AuzoUserCommandTest extends AuzoTestCase
 
         $this->artisan('auzo:user', [
             'operation' => 'assign',
-            'users' => '1,2',  // multiple users ids separated by ,
-            'role' => 'testRole' // role name or id
+            'users'     => '1,2',  // multiple users ids separated by ,
+            'role'      => 'testRole', // role name or id
         ]);
 
         $user1 = AuzoUser::find(1);
@@ -35,9 +35,9 @@ class AuzoUserCommandTest extends AuzoTestCase
 
         $this->artisan('auzo:user', [
             '--no-interaction' => true,
-            'operation' => 'revoke',
-            'users' => '1,2',  // multiple users ids separated by ,
-            'role' => 1 // role name or id
+            'operation'        => 'revoke',
+            'users'            => '1,2',  // multiple users ids separated by ,
+            'role'             => 1, // role name or id
         ]);
 
         $user1 = AuzoUser::find(1);
