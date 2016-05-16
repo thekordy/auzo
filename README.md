@@ -1,6 +1,10 @@
 Central management interface with database and user roles for Laravel 5.1 and
 5.2 users authorize system.
 
+Ever thought about a way to put a policy or condition on every permission as a restriction, something like: allow authenticated user to modify posts **Only if he is the post author** or **Only if he is in the same group as the author** or **Only if the post is not published** ... etc
+
+This package fills this gap by restricting user's role permission with a condition/policy, and it follows RBAC approach providing users roles.
+
 This package will install database tables to store abilities, user roles,
 permissions, and custom condition/policy per each permission you give.
 
