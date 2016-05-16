@@ -2,6 +2,7 @@
 
 namespace Kordy\Auzo\Commands;
 
+use AuzoAbility as AuzoAbilityFacade;
 use Illuminate\Console\Command;
 use Kordy\Auzo\Services\GenerateAbilitiesToDB;
 
@@ -15,7 +16,10 @@ class AuzoAbility extends Command
     protected $signature = 'auzo:ability 
                             {operation : operation to be done the ability model} 
                             {value : value for the operation}
-                            {--option= : option for the operation}';
+                            {--option= : option for the operation}
+                            {--label= : label for the create operation}
+                            {--tag= : tag for the create operation}
+                            {--n|no-interaction : tag for the create operation}';
 
     /**
      * The console command description.
@@ -33,17 +37,24 @@ class AuzoAbility extends Command
     {
         $operation = $this->argument('operation');
         $value = $this->argument('value');
-        $option = $this->option('option');
 
         switch ($operation) {
-
             case 'generate':
-                $this->generator($value, $option);
+                $this->generator($value);
+                break;
+            case 'create':
+                $this->create($value);
+                break;
+            case 'delete':
+                $this->delete($value);
+                break;
         }
     }
 
-    private function generator($value, $option)
+    private function generator($value)
     {
+        $option = $this->option('option');
+
         $model = app($value);
 
         $generator = new GenerateAbilitiesToDB();
@@ -58,5 +69,32 @@ class AuzoAbility extends Command
             default:
                 $generator->fullCrudAbilities($model)->saveToDB();
         }
+    }
+
+    private function create($value)
+    {
+        $label = $this->option('label');
+        $tag = $this->option('tag');
+        
+        AuzoAbilityFacade::create([
+            'name' => $value,
+            'label' => $label,
+            'tag' => $tag
+        ]);
+
+        $this->info("$value is created.");
+    }
+
+    private function delete($value)
+    {
+        $no_interaction = $this->option('no-interaction');
+
+        if ($no_interaction) {
+            AuzoAbilityFacade::findByNameOrId($value)->delete();
+        } elseif ($this->confirm("$value is going to be deleted. Do you wish to continue? [y|N]")) {
+            AuzoAbilityFacade::findByNameOrId($value)->delete();
+        }
+
+        $this->info("$value is deleted.");
     }
 }

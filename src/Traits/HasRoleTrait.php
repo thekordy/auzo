@@ -37,7 +37,7 @@ trait HasRoleTrait
      *
      * @return mixed
      */
-    public function removeRole()
+    public function revokeRole()
     {
         $this->role_id = null;
         $this->save();
