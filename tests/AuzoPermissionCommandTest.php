@@ -18,10 +18,10 @@ class AuzoPermissionCommandTest extends AuzoTestCase
         ]);
 
         $role_permission1_policy1 = $role->permissions->first()->policies->first();
-        $role_permission1_policy2 = $role->permissions->first()->policies->slice(1, 1)[0];
+        $role_permission1_policy2 = $role->permissions->first()->policies->slice(1, 1)->first();
 
-        $role_permission2_policy1 = $role->permissions->slice(1, 1)[0]->policies->first();
-        $role_permission2_policy2 = $role->permissions->slice(1, 1)[0]->policies->slice(1, 1)[0];
+        $role_permission2_policy1 = $role->permissions->slice(1, 1)->first()->policies->first();
+        $role_permission2_policy2 = $role->permissions->slice(1, 1)->first()->policies->slice(1, 1)->first();
 
         // role has assigned the permission1 with policy1
         $this->assertEquals($policy1->name, $role_permission1_policy1->name);
