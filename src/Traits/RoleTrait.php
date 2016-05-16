@@ -196,4 +196,26 @@ trait RoleTrait
     {
         $query->where('name', $name);
     }
+
+    /**
+     * Find ability by name or id.
+     *
+     * @param string|int|object $role
+     *
+     * @return bool
+     */
+    public function findByNameOrId($role)
+    {
+        if (is_string($role)) {
+            return $this->findByName($role);
+        }
+        if (is_int($role)) {
+            return $this->findOrFail($role);
+        }
+        if ($role instanceof $this) {
+            return $role;
+        }
+
+        return false;
+    }
 }

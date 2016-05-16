@@ -18,7 +18,8 @@ class AuzoAbility extends Command
                             {value : value for the operation}
                             {--option= : option for the operation}
                             {--label= : label for the create operation}
-                            {--tag= : tag for the create operation}';
+                            {--tag= : tag for the create operation}
+                            {--n|no-interaction : tag for the create operation}';
 
     /**
      * The console command description.
@@ -43,6 +44,9 @@ class AuzoAbility extends Command
                 break;
             case 'create':
                 $this->create($value);
+                break;
+            case 'delete':
+                $this->delete($value);
                 break;
         }
     }
@@ -77,5 +81,20 @@ class AuzoAbility extends Command
             'label' => $label,
             'tag' => $tag
         ]);
+
+        $this->info("$value is created.");
+    }
+
+    private function delete($value)
+    {
+        $no_interaction = $this->option('no-interaction');
+
+        if ($no_interaction) {
+            AuzoAbilityFacade::findByNameOrId($value)->delete();
+        } elseif ($this->confirm("$value is going to be deleted. Do you wish to continue? [y|N]")) {
+            AuzoAbilityFacade::findByNameOrId($value)->delete();
+        }
+
+        $this->info("$value is deleted.");
     }
 }

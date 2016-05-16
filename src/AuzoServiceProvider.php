@@ -90,6 +90,10 @@ class AuzoServiceProvider extends ServiceProvider
     {
         $commands = [
             'Kordy\Auzo\Commands\AuzoAbility',
+            'Kordy\Auzo\Commands\AuzoRole',
+            'Kordy\Auzo\Commands\AuzoPermission',
+            'Kordy\Auzo\Commands\AuzoPolicy',
+            'Kordy\Auzo\Commands\AuzoUser',
         ];
 
         $this->commands($commands);

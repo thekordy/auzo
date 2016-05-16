@@ -42,7 +42,7 @@ trait AbilityTrait
             return $this->findByName($ability);
         }
         if (is_int($ability)) {
-            return $this->find($ability);
+            return $this->findOrFail($ability);
         }
         if ($ability instanceof $this) {
             return $ability;

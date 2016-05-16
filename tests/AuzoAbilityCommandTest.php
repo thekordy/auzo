@@ -230,4 +230,11 @@ class AuzoAbilityCommandTest extends AuzoTestCase
             'tag' => 'ability',
         ]);
     }
+
+    public function test_auzo_ability_delete_artisan_command()
+    {
+        AuzoAbility::create(['name' => 'test.ability']);
+        $this->artisan('auzo:ability', ['--no-interaction' => true, 'operation' => 'delete', 'value' => 'test.ability']);
+        $this->dontSeeInDatabase(app('AuzoAbility')->getTable(), ['name' => 'test.ability']);
+    }
 }

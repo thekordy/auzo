@@ -76,11 +76,11 @@ class PermissionsTest extends AuzoTestCase
         $user2 = $this->createUser();
         $policy1 = AuzoPolicy::create([
             'name'   => 'Profile Owner',
-            'method' => $this->userClass.'@profileOwner',
+            'method' => 'Kordy\Auzo\Services\AccessPolicies@profileOwner',
         ]);
         $policy2 = AuzoPolicy::create([
             'name'   => 'Application Admin',
-            'method' => $this->userClass.'@siteAdmin',
+            'method' => 'Kordy\Auzo\Services\AccessPolicies@siteAdmin',
         ]);
 
         $role->givePermissionTo($ability->name)
@@ -104,11 +104,11 @@ class PermissionsTest extends AuzoTestCase
         $user2 = $this->createUser();
         $policy1 = AuzoPolicy::create([
             'name'   => 'Profile Owner',
-            'method' => $this->userClass.'@profileOwner',
+            'method' => 'Kordy\Auzo\Services\AccessPolicies@profileOwner',
         ]);
         $policy2 = AuzoPolicy::create([
             'name'   => 'Application Admin',
-            'method' => $this->userClass.'@siteAdmin',
+            'method' => 'Kordy\Auzo\Services\AccessPolicies@siteAdmin',
         ]);
 
         $role1->givePermissionTo($ability->name)
@@ -141,7 +141,7 @@ class PermissionsTest extends AuzoTestCase
         try {
             $this->actingAs($user2)->visit('/user-profile-test/1');
         } catch (\Exception $e) {
-            $this->assertContains('Received status code [403]', $e->getMessage());
+            $this->assertContains('abort(403)', $e->getTraceAsString());
         }
     }
 
@@ -155,6 +155,6 @@ class PermissionsTest extends AuzoTestCase
      */
     protected function createUser($params = [])
     {
-        return factory($this->userClass)->create($params);
+        return factory('TestUser')->create($params);
     }
 }

@@ -13,7 +13,7 @@ management.
 2. [Manage Roles](#roles)
 3. [Manage Conditions/Policies](#policies)
 4. [Manage Permissions](#permissions)
-5. [Artisan Commands](#artisan-commands)
+5. [Generate abilities](#generate-abilities)
 
 # Installation
 You can install the package via composer:
@@ -107,6 +107,14 @@ AuzoAbility::create([
 ]);
 ```
 
+Manage abilities using `auzo:ability` artisan command:
+```bash
+# create new ability
+php artisan auzo:ability create 'ability.index' --label='Ability Index' --tag='ability'
+# delete ability
+php artisan auzo:ability delete 'ability.index'
+```
+
 ## Roles
 Auzo approaches Role Based Access Control (RBAC) methodology, All users get
 their permissions "only" through their role, that is for better usability
@@ -121,7 +129,15 @@ $role = AuzoRole::create([
 ]);
 ```
 
-Assign role to a user:
+Manage roles using `auzo:role` artisan command:
+```bash
+# create new role
+php artisan auzo:role create 'testRole' --description='testing role'
+# delete role
+php artisan auzo:role delete 'testRole'
+```
+
+Assign role to a user using `hasRole` trait relationship:
 ```php
 // by role instance
 $user->assignRole($role);
@@ -129,6 +145,14 @@ $user->assignRole($role);
 $user->assignRole(2);
 // or by role name
 $user->assignRole('testRole');
+```
+
+Manage user role assignment using `auzo:user` artisan command:
+```bash
+# assign role to users
+php artisan auzo:user assign '1,2,3' 'SomeRole'
+# revoke role from users
+php artisan auzo:user revoke '1,2,3' 'SomeRole'
 ```
 
 ## Policies
@@ -152,6 +176,14 @@ $policy = AuzoPolicy::create([
 ]);
 ```
 
+Manage policies using `auzo:policy` artisan command:
+```bash
+# create new policy
+php artisan auzo:policy create 'Test Policy' 'Controller@policy'
+# delete policy by id
+php artisan auzo:policy delete 1
+```
+
 ## Permissions
 
 Give role a permission to an ability:
@@ -164,6 +196,8 @@ $role->givePermissionTo(3);
 $role->givePermissionTo([1,3]);
 // or by ability name
 $role->givePermissionTo('ability.name');
+// remove permission by passing ability name
+$role->removePermissionTo('ability.name');
 ```
 
 Give role a permission to an ability restricted by policy:
@@ -173,17 +207,33 @@ $role->givePermissionTo($ability->name)
     ->addPolicy([$policy2->id => ['operator' => 'or']]);
 ```
 
+Using `auzo:permission` artisan command to manage permissions:
+```bash
+php artisan auzo:permission give 'testRole' 'ability.test,ability.test2' --policies='1,2:||'
+```
+
 if multiple policies applied, a default "AND" is applied between policies,
 unless you specified an operator at the time of adding policies to the
 permission.
 
-## Artisan Commands
+## Generate abilities
 
-### auzo:ability
 This will use `GenerateAbilities` from [AuzoTools](https://github.com/thekordy/auzo-tools/)
  to generate all abilities (by default matching route source scheme) for a model
   and its fields, and saves them to the database abilities table.
 
+Through the GeneratAbilitiesToDB class:
+```php
+$generator = new Kordy\Auzo\Services\GenerateAbilitiesToDB();
+// generate only model CRUD abilities
+$generator->modelAbilities($model)->saveModelToDB();
+// generate only fields CRUD abilities
+$generator->fieldsAbilities($model)->saveFieldsToDB();
+// generate both model and fields CRUD abilities
+$generator->fullCrudAbilities($model)->saveToDB();
+```
+
+Through the artisan command
 ```bash
 php artisan auzo:ability generate 'App\Post'
 # or to generate only model abilities
@@ -280,6 +330,12 @@ This will generate and save all abilities below to abilities table:
     ],
     ....
 ```
+
+# Credits
+1. Based on [laravel-permission package](https://github.com/spatie/laravel-permission)
+which is considered the best alternative for this package if you need multiple
+roles and direct permissions for users.
+2. A lot of help from my friend [balping](https://github.com/balping)
 
 # Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
