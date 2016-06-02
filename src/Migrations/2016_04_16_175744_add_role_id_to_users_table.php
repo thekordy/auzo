@@ -14,7 +14,7 @@ class AddRoleIdToUsersTable extends Migration
     {
         // get users table from the configured user model in Config/auzo.php
         Schema::table(app('AuzoUser')->getTable(), function (Blueprint $table) {
-            $table->integer('role_id')->nullable();
+            $table->integer('role_id')->unsigned()->nullable();
             $table->foreign('role_id')->references('id')->on('roles');
         });
     }
