@@ -24,13 +24,11 @@
   },
   "autoload-dev": {
     "classmap": [
-      "tests/AuzoTestCase.php"
+      "tests/AuzoTestCase.php",
+      "src/Migrations/"
     ]
   },
   "autoload": {
-    "classmap": [
-      "src/Migrations/"
-    ],
     "psr-4": {
       "Kordy\\Auzo\\": "src/"
     }
