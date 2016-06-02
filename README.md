@@ -246,9 +246,9 @@ Through the artisan command
 ```bash
 php artisan auzo:ability generate 'App\Post'
 # or to generate only model abilities
-php artisan auzo:ability generate 'App\Post' --model
+php artisan auzo:ability generate 'App\Post' --option=model
 # or to generate only fields abilities
-php artisan auzo:ability generate 'App\Post' --fields
+php artisan auzo:ability generate 'App\Post' --option=fields
 ```
 This will generate and save all abilities below to abilities table:
 ```php
