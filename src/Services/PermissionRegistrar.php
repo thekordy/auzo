@@ -47,11 +47,9 @@ class PermissionRegistrar
             // $this->gate->before(function ($user, $ability) {});
 
             $this->getPermissions()->map(function ($ability) {
-
                 $this->gate->define($ability->name, function ($user, $model = null) use ($ability) {
                     return $user->isCapableTo($ability, $model);
                 });
-
             });
             // TODO add configurable after method
             // $this->gate->after(function ($user, $ability, $result, $arguments) {});
