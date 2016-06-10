@@ -6,8 +6,8 @@ Ever thought about a way to put a policy or condition on every permission as
  **Only if he is the post author** or **Only if he is in the same group as the author** 
  or **Only if the post is not published** ... etc
 
-This package fills this gap by restricting user's role permission 
-with a condition/policy, and it follows RBAC approach providing users roles.
+Not like other roles based packages, this package fills this gap by restricting user's role permission 
+with a condition/policy, as it follows [AAttribute-Based Access Controll (ABAC)](https://en.wikipedia.org/wiki/Attribute-Based_Access_Control) approach as Laravel authorize does.
 
 Database tables will be installed to store abilities, user roles,
 permissions, and custom condition/policy per each permission you give.
