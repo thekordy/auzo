@@ -9,12 +9,13 @@ class AccessPolicies
     /**
      * Example of condition method to restrict permissions.
      *
+     * @param $ability
+     * @param $role
      * @param $user
      * @param $model
-     *
      * @return bool
      */
-    public function profileOwner($user, $model)
+    public function profileOwner($ability, $role, $user, $model)
     {
         $id = $user->getKeyName();
         if (!$model instanceof Request) {
@@ -27,11 +28,13 @@ class AccessPolicies
     /**
      * Example of condition method to restrict permissions.
      *
+     * @param $ability
+     * @param $role
      * @param $user
-     *
+     * @param $model
      * @return bool
      */
-    public function siteAdmin($user)
+    public function siteAdmin($ability, $role, $user, $model)
     {
         $id = $user->getKeyName();
 

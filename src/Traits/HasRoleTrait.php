@@ -105,7 +105,7 @@ trait HasRoleTrait
     public function isCapableTo($ability, $model = null)
     {
         if ($role = $this->role) {
-            return $role->isCapableTo($ability, $model);
+            return $role->isCapableTo($ability, $this, $model);
         }
 
         return false;

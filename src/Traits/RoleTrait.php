@@ -142,11 +142,11 @@ trait RoleTrait
      * Similar to hasPermissionTo but it also checking all of the permission policies.
      *
      * @param string|int|object $ability
-     * @param null|object       $model
-     *
+     * @param $user
+     * @param null|object $model
      * @return bool
      */
-    public function isCapableTo($ability, $model = null)
+    public function isCapableTo($ability, $user, $model = null)
     {
         if (!$this->hasPermissionTo($ability)) {
             return false;
@@ -158,24 +158,26 @@ trait RoleTrait
             return true;
         }
 
-        return $this->processPermissionPolicies($policies, $model);
+        return $this->processPermissionPolicies($policies, $ability, $user, $model);
     }
 
     /**
      * apply policies of permission on a given model.
      *
-     * @param $model
      * @param $policies
      *
+     * @param $ability
+     * @param $user
+     * @param $model
      * @return bool
      */
-    protected function processPermissionPolicies($policies, $model)
+    protected function processPermissionPolicies($policies, $ability, $user, $model)
     {
         $result = true;
 
         foreach ($policies as $policy) {
             list($class, $method) = explode('@', $policy->method);
-            $policy_method = app($class)->$method($this, $model);
+            $policy_method = app($class)->$method($ability, $this, $user, $model);
             if ($policy->pivot->operator == 'or' || $policy->pivot->operator == '||') {
                 $result = $result || $policy_method;
             } else {
