@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Application;
 
 abstract class AuzoTestCase extends \Orchestra\Testbench\TestCase
 {
@@ -62,11 +63,11 @@ abstract class AuzoTestCase extends \Orchestra\Testbench\TestCase
     }
 }
 
-$laravel_version = substr(Illuminate\Foundation\Application::VERSION, 0, 3);
+$version = Application::VERSION;
 /*
  * Copy of Laravel 5.2's default App\User
  */
-if ($laravel_version == '5.2') {
+if (version_compare($version, '5.2', '>=')) {
     class TestUser extends \Illuminate\Foundation\Auth\User
     {
         use \Kordy\Auzo\Traits\HasRoleTrait;
@@ -97,7 +98,7 @@ if ($laravel_version == '5.2') {
  * Copy of Laravel 5.1's default App\User
  * without CanResetPassword trait
  */
-if ($laravel_version == '5.1') {
+if (version_compare($version, '5.2', '<')) {
     class TestUser extends Illuminate\Database\Eloquent\Model implements Illuminate\Contracts\Auth\Authenticatable, Illuminate\Contracts\Auth\Access\Authorizable
     {
         use Illuminate\Auth\Authenticatable, Illuminate\Foundation\Auth\Access\Authorizable;

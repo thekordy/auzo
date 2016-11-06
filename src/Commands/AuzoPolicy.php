@@ -14,9 +14,9 @@ class AuzoPolicy extends Command
      */
     protected $signature = 'auzo:policy 
                             {operation : operation to be done the policy model} 
-                            {name? : policy name for the create operation}
-                            {id? : policy id for the delete operation}
-                            {method? : policy method for the create operation}';
+                            {--name= : policy name for the create operation}
+                            {--id= : policy id for the delete operation}
+                            {--method= : policy method for the create operation}';
 
     /**
      * The console command method.
@@ -33,9 +33,9 @@ class AuzoPolicy extends Command
     public function handle()
     {
         $operation = $this->argument('operation');
-        $name = $this->argument('name');
-        $id = $this->argument('id');
-        $method = $this->argument('method');
+        $name = $this->option('name');
+        $id = $this->option('id');
+        $method = $this->option('method');
 
         switch ($operation) {
             case 'create':

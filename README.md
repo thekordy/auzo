@@ -1,5 +1,4 @@
-Central management interface with database and user roles for Laravel 5.1 and
-5.2 users authorize system.
+Central management of Laravel authorization with database and user roles for Laravel 5.1, 5.2, and 5.3.
 
 Ever thought about a way to put a policy or condition on every permission as
  a restriction, something like: allow authenticated user to modify posts 
@@ -55,6 +54,17 @@ You can publish the config file with:
 ```bash
 php artisan vendor:publish --provider="Kordy\Auzo\AuzoServiceProvider" --tag="config"
 ```
+
+Finally, you have to add the `HasRoleTrait` trait to the user's model where you want to assign roles to them.
+```php
+// App\User.php
+
+class User extends ...
+{
+    use ..., Kordy\Auzo\Traits\HasRoleTrait;
+    ...
+```
+    
 
 ## Customization
 You can replace or extend any model of the package through the configuration
@@ -188,9 +198,9 @@ $policy = AuzoPolicy::create([
 Manage policies using `auzo:policy` artisan command:
 ```bash
 # create new policy
-php artisan auzo:policy create 'Test Policy' 'Controller@policy'
+php artisan auzo:policy create --name='Test Policy' --method='Controller@policy'
 # delete policy by id
-php artisan auzo:policy delete 1
+php artisan auzo:policy delete --id=1
 ```
 
 ## Permissions
