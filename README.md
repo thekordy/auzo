@@ -182,10 +182,11 @@ conditions that have to be met before granting the permission to a user.
 example: grant a user permission if the user is the owner of the post.
 ```php
 // App\Post
-public function owner($user, $model) {
+public function owner($ability, $role, $user, $model) {
     return $user->id == $model->usr_id;
 }
 ```
+see [src/Services/AccessPolicies.php](https://github.com/thekordy/auzo/blob/master/src/Services/AccessPolicies.php) for more examples.
 
 Manage policies through AuzoPolicy Facade:
 ```php
