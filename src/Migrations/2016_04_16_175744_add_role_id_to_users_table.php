@@ -27,6 +27,7 @@ class AddRoleIdToUsersTable extends Migration
     public function down()
     {
         Schema::table(app('AuzoUser')->getTable(), function (Blueprint $table) {
+            $table->dropForeign(['role_id']);
             $table->dropColumn('role_id');
         });
     }
