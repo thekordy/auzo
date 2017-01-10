@@ -77,7 +77,7 @@ class PermissionRegistrar
     protected function getPermissions()
     {
         return $this->cache->rememberForever($this->cacheKey, function () {
-            return AuzoAbility::with('permissions.policies', 'permissions.role.users')
+            return AuzoAbility::with('permissions.policies')
                 ->get();
         });
     }

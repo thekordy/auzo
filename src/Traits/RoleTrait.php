@@ -123,7 +123,7 @@ trait RoleTrait
             return $this->permissionTo($ability)->count() === count($ability);
         }
 
-        return (bool) $this->permissionTo($ability)->first();
+        return $this->permissionTo($ability);
     }
 
     /**
@@ -135,7 +135,13 @@ trait RoleTrait
      */
     public function permissionTo($ability)
     {
-        return $this->permissions()->forAbility($ability);
+        foreach ($ability->permissions as $permission) {
+            if ($permission->role_id === $this->id) {
+                return $permission;
+            }
+        }
+        return false;
+//        return $this->permissions()->forAbility($ability);
     }
 
     /**
@@ -148,13 +154,13 @@ trait RoleTrait
      */
     public function isCapableTo($ability, $user, $model = null)
     {
-        if (!$this->hasPermissionTo($ability)) {
+        if (!$permission = $this->hasPermissionTo($ability)) {
             return false;
         }
 
-        $policies = $this->permissions()->forAbility($ability)->policies;
+        $policies = $permission->policies;
 
-        if ($policies->isEmpty()) {
+        if (empty($policies)) {
             return true;
         }
 
