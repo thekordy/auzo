@@ -135,6 +135,7 @@ trait RoleTrait
      */
     public function permissionTo($ability)
     {
+        $ability = AuzoAbility::findByNameOrId($ability);
         foreach ($ability->permissions as $permission) {
             if ($permission->role_id === $this->id) {
                 return $permission;
@@ -181,7 +182,7 @@ trait RoleTrait
     {
         $result = true;
 
-        foreach ($policies as $policy) {
+        foreach ($policies->sortBy('pivot.id') as $policy) {
             list($class, $method) = explode('@', $policy->method);
             $policy_method = app($class)->$method($ability, $this, $user, $model);
             if ($policy->pivot->operator == 'or' || $policy->pivot->operator == '||') {
