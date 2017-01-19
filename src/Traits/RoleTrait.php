@@ -136,13 +136,16 @@ trait RoleTrait
     public function permissionTo($ability)
     {
         $ability = AuzoAbility::findByNameOrId($ability);
-        foreach ($ability->permissions as $permission) {
-            if ($permission->role_id === $this->id) {
-                return $permission;
+
+        if ($ability) {
+            foreach ($ability->permissions as $permission) {
+                if ($permission->role_id === $this->id) {
+                    return $permission;
+                }
             }
         }
+
         return false;
-//        return $this->permissions()->forAbility($ability);
     }
 
     /**
