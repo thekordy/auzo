@@ -113,27 +113,11 @@ trait RoleTrait
     /**
      * Check if has a permission to ability.
      *
-     * @param string|int|array|object $ability
+     * @param string|int|object $ability
      *
      * @return bool
      */
     public function hasPermissionTo($ability)
-    {
-        if (is_array($ability)) {
-            return $this->permissionTo($ability)->count() === count($ability);
-        }
-
-        return $this->permissionTo($ability);
-    }
-
-    /**
-     * Get the permission instance to an ability.
-     *
-     * @param $ability
-     *
-     * @return mixed
-     */
-    public function permissionTo($ability)
     {
         $ability = AuzoAbility::findByNameOrId($ability);
 
